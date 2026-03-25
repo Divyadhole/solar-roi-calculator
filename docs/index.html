@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Solar Project ROI Calculator — IRR · NPV · Payback Period · Excel Export</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#1a1200;--surface:#241900;--card:#2e2000;--border:#4a3500;--text:#fef9e7;--muted:#a08040;--accent:#f59e0b;--danger:#f87171;--warn:#fb923c;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans','DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:15px;line-height:1.65}
+.header{background:var(--surface);border-bottom:1px solid var(--border);padding:0 32px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.header-left{display:flex;align-items:center;gap:14px}
+.proj-badge{width:38px;height:38px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#1a1200}
+.header-title{font-size:15px;font-weight:600}
+.header-title span{color:var(--muted);font-weight:400;font-size:12px;margin-left:8px}
+.nav-links{display:flex;gap:8px}
+.btn{padding:5px 14px;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;text-decoration:none;font-family:inherit;transition:all .15s;border:1px solid var(--border);color:var(--muted);background:transparent}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.hero{padding:52px 32px 44px;border-bottom:1px solid var(--border);background:var(--surface);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-80px;right:-80px;width:320px;height:320px;background:var(--accent);opacity:.05;border-radius:50%;pointer-events:none}
+.hero-inner{max-width:880px;margin:0 auto;position:relative}
+.data-badge{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:600;background:rgba(255,255,255,0.06);color:var(--accent);border:1px solid var(--accent);padding:3px 11px;border-radius:99px;margin-bottom:16px;text-transform:uppercase;letter-spacing:.6px}
+.hero h1{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:700;line-height:1.15;margin-bottom:10px;color:var(--text)}
+.hero p{font-size:1rem;color:var(--muted);max-width:680px;margin-bottom:20px;line-height:1.7}
+.tools{display:flex;gap:7px;flex-wrap:wrap}
+.tool-badge{font-size:10.5px;font-weight:500;padding:2px 9px;border-radius:99px;background:rgba(255,255,255,0.06);border:1px solid var(--border);color:var(--muted)}
+.container{max-width:880px;margin:0 auto;padding:34px 32px}
+.finding-box{padding:16px 20px;margin-bottom:30px;border-radius:0 10px 10px 0;border-left:4px solid var(--accent);background:rgba(255,255,255,0.04);border-top:1px solid var(--border);border-right:1px solid var(--border);border-bottom:1px solid var(--border);font-size:13px;line-height:1.7;color:var(--muted)}
+.finding-box strong{color:var(--accent)}
+.section-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:12px}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:11px;margin-bottom:34px}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px 18px;box-shadow:0 1px 3px rgba(0,0,0,.4);}
+.kpi-label{font-size:9.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;font-weight:500;margin-bottom:7px}
+.kpi-value{font-size:1.65rem;font-weight:700;line-height:1.1}
+.charts-grid{display:grid;grid-template-columns:1fr;gap:16px;margin-bottom:34px}
+.chart-card{background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.4);}
+.chart-header{padding:14px 18px 0}
+.chart-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px}
+.chart-sub{font-size:10.5px;color:var(--muted);margin-bottom:10px}
+.chart-card img{width:100%;display:block}
+.source-box{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px 22px;margin-bottom:22px;box-shadow:0 1px 3px rgba(0,0,0,.4);}
+.source-box h3{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:8px}
+.source-box p{font-size:12.5px;color:var(--muted);line-height:1.7}
+.source-box a{color:var(--accent);text-decoration:none}
+footer{text-align:center;padding:22px;font-size:11px;color:var(--muted);border-top:1px solid var(--border)}
+footer a{color:var(--accent);text-decoration:none}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-left">
+    <div class="proj-badge">P14</div>
+    <div class="header-title">Solar Project ROI Calculator <span>IRR · NPV · Payback Period · Excel Export</span></div>
+  </div>
+  <nav class="nav-links">
+    <a href="https://github.com/Divyadhole/solar-roi-calculator" target="_blank" class="btn">GitHub</a>
+    <a href="https://www.eia.gov/opendata/" target="_blank" class="btn">Data Source</a>
+  </nav>
+</header>
+<section class="hero">
+  <div class="hero-inner">
+    <div class="data-badge">Real Gov Data — EIA Open Data + NREL Solar Resource</div>
+    <h1>Solar Project ROI Calculator</h1>
+    <p>Enter a commercial system size and state — the calculator auto-fills the real EIA utility rate and NREL solar capacity factor, then computes IRR, NPV, simple and discounted payback, LCOE, and a 25-year cash flow stream. Federal ITC (30%) and MACRS 5-year depreciation modeled per IRA 2022 and IRS Publication 946. Generates a formatted Excel proposal report. Built for commercial solar EPC financial analysis.</p>
+    <div class="tools"><span class="tool-badge">Python</span> <span class="tool-badge">scipy</span> <span class="tool-badge">EIA API</span> <span class="tool-badge">NREL API</span> <span class="tool-badge">Streamlit</span> <span class="tool-badge">openpyxl</span> <span class="tool-badge">plotly</span></div>
+  </div>
+</section>
+<div style="text-align:center;margin:32px 0 16px">
+  <a href="https://solar-roi-calculator.streamlit.app" target="_blank"
+     style="display:inline-block;background:#FF6B35;color:white;font-weight:700;
+             font-size:15px;padding:14px 40px;border-radius:10px;text-decoration:none;
+             box-shadow:0 4px 18px rgba(255,107,53,.4);letter-spacing:.03em">
+    ▶&nbsp; Launch Interactive Calculator
+  </a>
+  <div style="font-size:12px;color:#888;margin-top:10px">
+    Streamlit app — select any state, adjust inputs, download Excel report
+  </div>
+</div>
+
+<div class="container">
+  <div class="finding-box"><strong>Summary:</strong> Enter a commercial system size and state — the calculator auto-fills the real EIA utility rate and NREL solar capacity factor, then computes IRR, NPV, simple and discounted payback, LCOE, and a 25-year cash flow stream. Federal ITC (30%) and MACRS 5-year depreciation modeled per IRA 2022 and IRS Publication 946. Generates a formatted Excel proposal report. Built for commercial solar EPC financial analysis.</div>
+  <div class="section-label">Key Findings</div>
+  <div class="kpi-grid"><div class="kpi" style="border-top:3px solid #FF6B35"><div class="kpi-label">100kW Arizona — IRR</div><div class="kpi-value" style="color:#FF6B35">12.7%</div></div><div class="kpi" style="border-top:3px solid #27AE60"><div class="kpi-label">NPV (25-year)</div><div class="kpi-value" style="color:#27AE60">$147,000</div></div><div class="kpi" style="border-top:3px solid #27AE60"><div class="kpi-label">Simple payback</div><div class="kpi-value" style="color:#27AE60">7.3 years</div></div><div class="kpi" style="border-top:3px solid #1B3A5C"><div class="kpi-label">Federal ITC (IRA 2022)</div><div class="kpi-value" style="color:#1B3A5C">30% through 2032</div></div><div class="kpi" style="border-top:3px solid #27AE60"><div class="kpi-label">Lifetime savings</div><div class="kpi-value" style="color:#27AE60">$644,597</div></div><div class="kpi" style="border-top:3px solid #1B3A5C"><div class="kpi-label">LCOE</div><div class="kpi-value" style="color:#1B3A5C">$0.049/kWh</div></div></div>
+  <div class="section-label">Charts &amp; Analysis</div>
+  <div class="charts-grid"></div>
+  <div class="source-box">
+    <h3>Data Source</h3>
+    <p><strong>EIA Open Data + NREL Solar Resource</strong> — <a href="https://www.eia.gov/opendata/" target="_blank">https://www.eia.gov/opendata/</a><br>
+    All data is real, publicly available government data. Free to download and verify independently.</p>
+  </div>
+</div>
+<footer>
+  <a href="https://github.com/Divyadhole/solar-roi-calculator" target="_blank">GitHub</a> &nbsp;·&nbsp;
+  Data: <a href="https://www.eia.gov/opendata/" target="_blank">EIA Open Data + NREL Solar Resource</a> (public domain) &nbsp;·&nbsp;
+  Divyadhole &nbsp;·&nbsp; Project 14 of 40
+</footer>
+</body>
+</html>
