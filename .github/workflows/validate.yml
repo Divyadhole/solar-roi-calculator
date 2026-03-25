@@ -1,0 +1,63 @@
+name: Solar ROI Validation
+
+on: [push]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install pandas numpy scipy matplotlib plotly openpyxl requests
+
+      - name: Validate IRR calculation
+        run: |
+          python -c "
+          from src.financial_model import SolarProjectInputs, calculate
+          inputs = SolarProjectInputs(
+              system_size_kw=100, cost_per_watt=2.80,
+              electricity_rate=0.118, capacity_factor=0.195,
+          )
+          r = calculate(inputs)
+          assert r.irr > 0.08, f'IRR too low: {r.irr:.3f}'
+          assert r.npv > 0,    f'NPV negative: {r.npv:.0f}'
+          assert 5 < r.simple_payback_yrs < 15, f'Payback out of range: {r.simple_payback_yrs:.1f}'
+          assert len(r.cash_flows) == 25, f'Expected 25yr cashflows, got {len(r.cash_flows)}'
+          print(f'✓ IRR={r.irr*100:.1f}% NPV=\${r.npv:,.0f} Payback={r.simple_payback_yrs:.1f}yr')
+          "
+
+      - name: Validate ITC schedule
+        run: |
+          python -c "
+          from src.financial_model import ITC_RATES
+          assert ITC_RATES[2024] == 0.30, 'ITC 2024 should be 30%'
+          assert ITC_RATES[2032] == 0.30, 'ITC 2032 should be 30%'
+          assert ITC_RATES[2033] == 0.26, 'ITC 2033 should step down to 26%'
+          print('✓ ITC schedule (IRA 2022) validated')
+          "
+
+      - name: Validate EIA rate data
+        run: |
+          python -c "
+          from src.eia_rates import get_rate_for_state, EIA_STATE_RATES_2023
+          assert len(EIA_STATE_RATES_2023) == 51, f'Expected 51 states, got {len(EIA_STATE_RATES_2023)}'
+          az_rate = get_rate_for_state('AZ')
+          assert 0.08 < az_rate < 0.20, f'AZ rate out of expected range: {az_rate}'
+          print(f'✓ EIA rates: 51 states, AZ={az_rate*100:.1f}¢/kWh')
+          "
+
+      - name: Generate Excel report
+        run: |
+          python -c "
+          from src.financial_model import SolarProjectInputs, calculate
+          from src.excel_export import generate_report
+          inputs = SolarProjectInputs(system_size_kw=100)
+          results = calculate(inputs)
+          path = generate_report(inputs, results, '/tmp/test_report.xlsx')
+          import os
+          assert os.path.exists(path), 'Excel file not created'
+          assert os.path.getsize(path) > 5000, 'Excel file too small'
+          print(f'✓ Excel report generated: {os.path.getsize(path):,} bytes')
+          "
