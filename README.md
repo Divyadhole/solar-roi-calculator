@@ -7,13 +7,15 @@
 [![NREL](https://img.shields.io/badge/Data-NREL%20Solar%20Resource-yellow)](https://developer.nrel.gov/)
 [![CI](https://github.com/Divyadhole/solar-roi-calculator/workflows/Solar%20ROI%20Validation/badge.svg)](https://github.com/Divyadhole/solar-roi-calculator/actions)
 
-## Live
+## Live Links
 
-**Dashboard:** [divyadhole.github.io/solar-roi-calculator](https://divyadhole.github.io/solar-roi-calculator/)
+| | Link |
+|---|---|
+| 🌐 **Dashboard** | [divyadhole.github.io/solar-roi-calculator](https://divyadhole.github.io/solar-roi-calculator/) |
+| ▶ **Interactive App** | [solar-roi-calculator.streamlit.app](https://solar-roi-calculator.streamlit.app) |
 
-**Interactive App:** [solar-roi-calculator.streamlit.app](https://solar-roi-calculator.streamlit.app)
-
-Select any US state — the app auto-fills the real EIA utility rate and NREL solar capacity factor, then runs the full financial model instantly.
+The dashboard shows the financial model output and charts as a static site.
+The Streamlit app is fully interactive — select any US state, adjust system size and cost, and get IRR/NPV/payback instantly with a downloadable Excel report.
 
 ---
 
