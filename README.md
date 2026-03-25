@@ -1,13 +1,13 @@
 # Solar Project ROI Calculator
 
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python)](https://python.org)
-[![Streamlit](https://img.shields.io/badge/Streamlit-Live%20App-FF6B35?logo=streamlit)](https://solar-roi-calculator.streamlit.app)
+[![Streamlit](https://img.shields.io/badge/Streamlit-Live%20App-FF6B35?logo=streamlit)](https://divyadhole.github.io/solar-roi-calculator/)
 [![Data](https://img.shields.io/badge/EIA-Commercial%20Rates%202023-orange)](https://www.eia.gov/opendata/)
 [![NREL](https://img.shields.io/badge/NREL-Solar%20Resource-yellow)](https://developer.nrel.gov/)
 
 ## Live App
 
-**[solar-roi-calculator.streamlit.app](https://solar-roi-calculator.streamlit.app)**
+**[solar-roi-calculator.streamlit.app](https://divyadhole.github.io/solar-roi-calculator/)**
 
 Select a state → auto-fills the real EIA utility rate and NREL capacity factor → get full financial analysis in seconds.
 
