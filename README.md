@@ -1,7 +1,7 @@
 # Solar Project ROI Calculator
 
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python)](https://python.org)
-[![Streamlit](https://img.shields.io/badge/Streamlit-Live%20App-FF6B35?logo=streamlit&logoColor=white)](https://solar-roi-calculator.streamlit.app)
+[![Streamlit](https://img.shields.io/badge/Streamlit-Live%20App-FF6B35?logo=streamlit&logoColor=white)](https://solar-roi-calcu-kvtumqm7wwyyd6hnr4zfoc.streamlit.app)
 [![Dashboard](https://img.shields.io/badge/🌐%20Live%20Dashboard-divyadhole.github.io-FF6B35)](https://divyadhole.github.io/solar-roi-calculator/)
 [![EIA](https://img.shields.io/badge/Data-EIA%20Commercial%20Rates-orange)](https://www.eia.gov/opendata/)
 [![NREL](https://img.shields.io/badge/Data-NREL%20Solar%20Resource-yellow)](https://developer.nrel.gov/)
@@ -12,7 +12,7 @@
 | | Link |
 |---|---|
 | 🌐 **Dashboard** | [divyadhole.github.io/solar-roi-calculator](https://divyadhole.github.io/solar-roi-calculator/) |
-| ▶ **Interactive App** | [solar-roi-calculator.streamlit.app](https://solar-roi-calculator.streamlit.app) |
+| ▶ **Interactive App** | [Launch App ↗](https://solar-roi-calcu-kvtumqm7wwyyd6hnr4zfoc.streamlit.app) |
 
 The dashboard shows the financial model output and charts as a static site.
 The Streamlit app is fully interactive — select any US state, adjust system size and cost, and get IRR/NPV/payback instantly with a downloadable Excel report.
