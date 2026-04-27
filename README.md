@@ -145,8 +145,3 @@ streamlit run app.py
 # Or run the financial model directly
 python src/financial_model.py
 ```
-
----
-
-*Divya Dhole · MS Data Science @ University of Arizona*
-*[divyadhole.github.io](https://divyadhole.github.io) · [LinkedIn](https://www.linkedin.com/in/divyadhole/)*
